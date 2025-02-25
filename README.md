@@ -93,3 +93,16 @@ This script can be used to manually apply changes to the database.
 
 For apply pending migrations to the database run:
 [dotnet ef database update]()
+
+
+### Migration: AddMiddleNameToStudent
+
+On the feat/add-middle-name-ef branch, generate the migration to add a MiddleName column to the Students table:
+
+[dotnet ef migrations add AddMiddleNameToStudent]()
+
+### Create SQL Artifact for Migration
+
+To generate an SQL script artifact for the AddMiddleNameToStudent migration:
+
+[dotnet ef migrations script InitialCreate AddMiddleNameToStudent -o Migrations/V2__AddMiddleName.sql]()
