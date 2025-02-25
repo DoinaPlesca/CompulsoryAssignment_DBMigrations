@@ -59,8 +59,7 @@ The project implements two migration strategies:
 1. [ ] Modify model classes.
 3. [ ] Generate incremental migration files using EF CLI.
 5. [ ] Produce migration artifacts (SQL scripts).
-2. [ ] Generate incremental migration files using EF CLI.
-3. [ ] Produce migration artifacts (SQL scripts).
+
 
 
 ### 2. State-based
@@ -68,8 +67,7 @@ The project implements two migration strategies:
 1. [ ] Write SQL migration scripts describing the final state of the schema.
 3. [ ] Maintain a snapshot rather than incremental changes.
 5. [ ] Each migration is managed in a separate Git branch.
-2. [ ] Maintain a snapshot rather than incremental changes.
-3. [ ] Each migration is managed in a separate Git branch.
+
 
 
 ## Git Branching Strategy for Migrations
@@ -89,7 +87,6 @@ This generates a migration file in the Migrations folder.
 To generate an SQL script artifact from the migration:
 
 [dotnet ef migrations script -o Migrations/V1__InitialCreate.sql]()
-This script can be used to manually apply changes to the database.
 
 For apply pending migrations to the database run:
 [dotnet ef database update]()
@@ -139,7 +136,9 @@ On branch feat/add-instructor-ef, run the migration:
 
 [dotnet ef migrations add AddInstructorRelation]()
 
-Create SQL Artifact for Migration:[dotnet ef migrations script AddDateOfBirthToStudent AddInstructorRelation -o Migrations/V4__AddInstructorRelation.sql]()
+Create SQL Artifact for Migration:
+
+[dotnet ef migrations script AddDateOfBirthToStudent AddInstructorRelation -o Migrations/V4__AddInstructorRelation.sql]()
 
 Update Db: [dotnet ef database update]()
 
@@ -150,6 +149,7 @@ On the feat/rename-grade-ef branch, generate the migration to rename Grade to Fi
 [dotnet ef migrations add RenameGradeToFinalGrade]()
 
 Create SQL Artifact for Migration:
+
 [dotnet ef migrations script AddInstructorRelation RenameGradeToFinalGrade -o Migrations/V5__RenameGradeToFinalGrade.sql]()
 
 ## **## Destructive vs Non-Destructive Approach**
@@ -160,19 +160,19 @@ For renaming the Grade column to FinalGrade, I chose a destructive approach by u
 
 **_Why I Chose a Destructive Approach?_**
 
-_1. Renaming a Column in PostgreSQL Is Safe_
+_1. Renaming a Column in PostgreSQL Is Safe__
 
 PostgreSQL supports ALTER TABLE ... RENAME COLUMN as an atomic operation, meaning it happens instantly without affecting data integrity.
 
-2. _No Data Loss Occurs_
+_2. No Data Loss Occurs_
 
 The ALTER TABLE ... RENAME COLUMN command preserves all existing data in the column.
 
-3*. Immediate Codebase Updates Are Possible*
+_3. _Immediate Codebase Updates Are Possible*__
 
 If the application code is updated at the same time as the migration, there’s no risk of breaking functionality.
 
-4. _Minimizes Complexity_
+_4. _Minimizes Complexity__
 
 Adding a new column, copying data, dropping the old one is unnecessary since we do not need to keep both names.
 
@@ -197,4 +197,18 @@ To generate an SQL script artifact for the AddDepartmentRelation migration run:
 [dotnet ef migrations script RenameGradeToFinalGrade AddDepartmentRelation -o Migrations/V6__AddDepartmentRelation.sql]()
 
 
+### Migration: ModifyCourseCredits
 
+On the feat/modify-credits-ef branch, generate the migration to change the Credits column type from int to decimal(5,2):
+[dotnet ef migrations add ModifyCourseCredits]()
+
+To generate an SQL script artifact for the ModifyCourseCredits migration:
+
+[dotnet ef migrations script AddDepartmentRelation ModifyCourseCredits -o Migrations/V7__ModifyCourseCredits.sql]()
+
+Since modifying a column type can result in data loss, we used a non-destructive approach:
+
+1. Create a new temporary column Credits_temp.
+2. Copy existing data to the new column.
+3. Drop the old column Credits.
+4. Rename Credits_temp to Credits.
