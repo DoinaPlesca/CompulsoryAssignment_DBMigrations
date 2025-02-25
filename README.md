@@ -206,7 +206,7 @@ To generate an SQL script artifact for the ModifyCourseCredits migration:
 
 [dotnet ef migrations script AddDepartmentRelation ModifyCourseCredits -o Migrations/V7__ModifyCourseCredits.sql]()
 
-Since modifying a column type can result in data loss, we used a non-destructive approach:
+I used a destructive approach:
 
 1. Create a new temporary column Credits_temp.
 2. Copy existing data to the new column.
