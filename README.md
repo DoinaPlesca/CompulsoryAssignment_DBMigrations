@@ -175,3 +175,26 @@ If the application code is updated at the same time as the migration, there’s 
 4. _Minimizes Complexity_
 
 Adding a new column, copying data, dropping the old one is unnecessary since we do not need to keep both names.
+
+### Migration: AddDepartment
+Create the Department Model:
+
+*  Id 
+* Name 
+* Budget 
+* StartDate
+* DepartmentHeadId
+* DepartmentHead 
+
+Update DbContext:
+[public DbSet<Department> Departments { get; set; }]()
+
+On the feat/add-department-ef branch, generate the migration to add the Department entity and its relationship with Instructor:
+
+[dotnet ef migrations add AddDepartmentRelation]()
+
+To generate an SQL script artifact for the AddDepartmentRelation migration run:
+[dotnet ef migrations script RenameGradeToFinalGrade AddDepartmentRelation -o Migrations/V6__AddDepartmentRelation.sql]()
+
+
+
