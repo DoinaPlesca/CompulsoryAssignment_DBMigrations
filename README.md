@@ -106,3 +106,12 @@ On the feat/add-middle-name-ef branch, generate the migration to add a MiddleNam
 To generate an SQL script artifact for the AddMiddleNameToStudent migration:
 
 [dotnet ef migrations script InitialCreate AddMiddleNameToStudent -o Migrations/V2__AddMiddleName.sql]()
+
+### Migration: AddDateOfBirth
+On the feat/add-dob-ef branch, generate the migration to add DateOfBirth column to the Students table:
+
+[dotnet ef migrations add AddDateOfBirthToStudent]()
+
+To generate an SQL script artifact for the AddDateOfBirthToStudent migration:
+
+[dotnet ef migrations script AddMiddleNameToStudent AddDateOfBirthToStudent -o Migrations/V3__AddDateOfBirth.sql]()
