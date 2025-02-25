@@ -1,0 +1,2 @@
+
+ALTER TABLE Students ADD COLUMN DateOfBirth TIMESTAMP;
