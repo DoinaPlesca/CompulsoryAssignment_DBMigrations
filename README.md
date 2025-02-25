@@ -115,3 +115,31 @@ On the feat/add-dob-ef branch, generate the migration to add DateOfBirth column 
 To generate an SQL script artifact for the AddDateOfBirthToStudent migration:
 
 [dotnet ef migrations script AddMiddleNameToStudent AddDateOfBirthToStudent -o Migrations/V3__AddDateOfBirth.sql]()
+
+### Migration: AddInstructor
+
+Create the Instructor Model:
+* Id
+* FirstName
+* LastName
+* Email
+* HireDate
+
+Update the Course Model:
+In Course.cs, add the foreign key and navigation property:
+* InstructorId
+* Instructor
+
+Update DbContext:
+In SchoolContext.cs, add:
+
+[public DbSet<Instructor> Instructors { get; set; }]()
+
+On branch feat/add-instructor-ef, run the migration:
+
+[dotnet ef migrations add AddInstructorRelation]()
+
+Generate artifact:[dotnet ef migrations script AddDateOfBirthToStudent AddInstructorRelation -o Migrations/V4__AddInstructorRelation.sql]()
+
+Update Db: [dotnet ef database update]()
+
