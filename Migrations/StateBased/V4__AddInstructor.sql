@@ -1,4 +1,3 @@
--- Create Instructors Table
 CREATE TABLE Instructors (
                              Id SERIAL PRIMARY KEY,
                              FirstName TEXT NOT NULL,
