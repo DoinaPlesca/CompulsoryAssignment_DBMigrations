@@ -139,7 +139,39 @@ On branch feat/add-instructor-ef, run the migration:
 
 [dotnet ef migrations add AddInstructorRelation]()
 
-Generate artifact:[dotnet ef migrations script AddDateOfBirthToStudent AddInstructorRelation -o Migrations/V4__AddInstructorRelation.sql]()
+Create SQL Artifact for Migration:[dotnet ef migrations script AddDateOfBirthToStudent AddInstructorRelation -o Migrations/V4__AddInstructorRelation.sql]()
 
 Update Db: [dotnet ef database update]()
 
+
+### Migration: RenameGradeToFinalGrade
+On the feat/rename-grade-ef branch, generate the migration to rename Grade to FinalGrade in the Enrollments table:
+
+[dotnet ef migrations add RenameGradeToFinalGrade]()
+
+Create SQL Artifact for Migration:
+[dotnet ef migrations script AddInstructorRelation RenameGradeToFinalGrade -o Migrations/V5__RenameGradeToFinalGrade.sql]()
+
+## **## Destructive vs Non-Destructive Approach**
+
+For renaming the Grade column to FinalGrade, I chose a destructive approach by using:
+
+**ALTER TABLE "Enrollments" RENAME COLUMN "Grade" TO "FinalGrade";**
+
+**_Why I Chose a Destructive Approach?_**
+
+_1. Renaming a Column in PostgreSQL Is Safe_
+
+PostgreSQL supports ALTER TABLE ... RENAME COLUMN as an atomic operation, meaning it happens instantly without affecting data integrity.
+
+2. _No Data Loss Occurs_
+
+The ALTER TABLE ... RENAME COLUMN command preserves all existing data in the column.
+
+3*. Immediate Codebase Updates Are Possible*
+
+If the application code is updated at the same time as the migration, there’s no risk of breaking functionality.
+
+4. _Minimizes Complexity_
+
+Adding a new column, copying data, dropping the old one is unnecessary since we do not need to keep both names.
