@@ -74,7 +74,27 @@ The project implements two migration strategies:
 
 ## Git Branching Strategy for Migrations
 
-![img_5.png](img_5.png)
+For the EF Code strategy:
+
+* git checkout -b feat/initial-schema-ef
+* git checkout -b feat/add-middle-name-ef
+* git checkout -b feat/add-dob-ef
+* git checkout -b feat/add-instructor-ef
+* git checkout -b feat/rename-grade-ef
+* git checkout -b feat/add-department-ef
+* git checkout -b feat/modify-credits-ef
+
+For the State-based strategy:
+
+* git checkout -b feat/initial-schema-state
+* git checkout -b feat/add-middle-name-state
+* git checkout -b feat/add-dob-state
+* git checkout -b feat/add-instructor-state
+* git checkout -b feat/rename-grade-state
+* git checkout -b feat/add-department-state
+* git checkout -b feat/modify-credits-state
+
+Each branch will contain the appropriate migration script artifact (named like V1__InitialSchema.sql, etc.).
 
 
 ## 1.  **Generating Migrations**
